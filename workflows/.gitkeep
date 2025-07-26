@@ -1,0 +1,8 @@
+# Managed Workflows Directory
+
+This directory contains version-controlled n8n workflows for team collaboration.
+
+Structure:
+- examples/ - Sample workflows and templates
+- Each workflow should be in its own directory with documentation
+- Use the workflow-management scripts to sync with running n8n instance

@@ -1,0 +1,105 @@
+{
+  "name": "AI Chat Basic Example",
+  "id": "ai-chat-basic-example",
+  "active": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "chat-trigger-node",
+      "name": "Chat Trigger",
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1,
+      "position": [300, 300],
+      "webhookId": "ai-chat-basic-webhook"
+    },
+    {
+      "parameters": {},
+      "id": "llm-chain-node",
+      "name": "AI Chat Chain",
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.3,
+      "position": [520, 300]
+    },
+    {
+      "parameters": {
+        "model": "llama3.2:latest",
+        "options": {
+          "temperature": 0.7
+        }
+      },
+      "id": "ollama-model-node",
+      "name": "Local Ollama Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOllama",
+      "typeVersion": 1,
+      "position": [540, 520],
+      "credentials": {
+        "ollamaApi": {
+          "id": "local-ollama-cred",
+          "name": "Local Ollama Service"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "# AI Chat Basic Example\n\nThis workflow demonstrates a simple AI chat interface using:\n- Chat Trigger for user interaction\n- LLM Chain for conversation flow\n- Local Ollama for AI processing\n\n## Features:\n- Local AI processing (no external APIs)\n- Conversation memory\n- Configurable temperature\n- Web chat interface\n\n## Setup:\n1. Ensure Ollama is running with llama3.2 model\n2. Configure Local Ollama Service credential\n3. Activate workflow\n4. Access chat at the webhook URL",
+        "height": 400,
+        "width": 500
+      },
+      "id": "documentation-note",
+      "name": "Documentation",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [760, 200]
+    }
+  ],
+  "connections": {
+    "Chat Trigger": {
+      "main": [
+        [
+          {
+            "node": "AI Chat Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Local Ollama Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Chat Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "versionId": "ai-chat-basic-v1",
+  "meta": {
+    "description": "Basic AI chat workflow using local Ollama for processing",
+    "templateCredsSetupCompleted": false
+  },
+  "tags": [
+    {
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z",
+      "id": "ai-tag",
+      "name": "ai"
+    },
+    {
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z",
+      "id": "chat-tag",
+      "name": "chat"
+    },
+    {
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z",
+      "id": "example-tag",
+      "name": "example"
+    }
+  ]
+}

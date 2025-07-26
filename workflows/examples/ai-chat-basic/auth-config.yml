@@ -1,0 +1,90 @@
+# Authentication Configuration for AI Chat Basic Example
+
+workflow_name: "AI Chat Basic Example"
+workflow_id: "ai-chat-basic-example"
+
+# Required credentials that must be configured in n8n
+required_credentials:
+  - name: "Local Ollama Service"
+    type: "ollamaApi"
+    description: "Local Ollama service for AI processing"
+    required_fields:
+      - base_url: "http://ollama:11434"
+    setup_instructions: |
+      1. Go to n8n Credentials page: http://localhost:5678/home/credentials
+      2. Click "Add Credential" and select "Ollama API"
+      3. Set Base URL to: http://ollama:11434
+      4. Test the connection to ensure Ollama is accessible
+      5. Save with name "Local Ollama Service"
+      6. Ensure the credential name matches exactly in the workflow
+
+# Optional credentials that enhance functionality
+optional_credentials: []
+
+# Environment variables that affect authentication
+environment_variables:
+  - OLLAMA_HOST: "Ollama service endpoint (default: ollama:11434)"
+
+# Security considerations
+security_notes:
+  - "All AI processing happens locally - no external API calls"
+  - "Credential stores Ollama endpoint configuration only"
+  - "No sensitive user data is stored in workflow configuration"
+  - "Chat conversations are processed in memory only"
+  - "Consider adding rate limiting for production deployments"
+
+# Testing authentication
+testing:
+  - credential_name: "Local Ollama Service"
+    test_method: "Simple chat completion request"
+    expected_result: "Successful response from Ollama with generated text"
+    test_command: |
+      # Test Ollama directly
+      curl -X POST http://localhost:11434/api/generate \
+        -H "Content-Type: application/json" \
+        -d '{"model": "llama3.2", "prompt": "Hello", "stream": false}'
+
+# Troubleshooting
+troubleshooting:
+  common_issues:
+    - issue: "Connection timeout to Ollama"
+      solution: "Ensure Ollama container is running: docker compose ps | grep ollama"
+      
+    - issue: "Model not found error"
+      solution: "Ensure llama3.2 is pulled: docker compose exec ollama ollama pull llama3.2"
+      
+    - issue: "Credential test fails"
+      solution: "Check OLLAMA_HOST environment variable and container networking"
+      
+    - issue: "Chat interface not loading"
+      solution: "Ensure workflow is activated and webhook is accessible"
+
+# Model requirements
+model_requirements:
+  - model_name: "llama3.2:latest"
+    description: "Primary model for chat responses"
+    size: "~4.7GB"
+    install_command: "docker compose exec ollama ollama pull llama3.2"
+    
+  - model_name: "llama3.2:instruct" 
+    description: "Alternative model optimized for instructions"
+    size: "~4.7GB"
+    install_command: "docker compose exec ollama ollama pull llama3.2:instruct"
+    optional: true
+
+# Performance considerations
+performance:
+  - note: "First request may be slower as model loads into memory"
+  - recommendation: "Keep Ollama container running for better response times"
+  - scaling: "For high volume, consider Ollama clustering or GPU acceleration"
+
+# Documentation links
+documentation:
+  - name: "n8n Credentials Documentation"
+    url: "https://docs.n8n.io/credentials/"
+  - name: "Ollama API Documentation"
+    url: "https://github.com/ollama/ollama/blob/main/docs/api.md"
+  - name: "n8n LangChain Integration"
+    url: "https://docs.n8n.io/integrations/builtin/cluster-nodes/"
+  - name: "Team Authentication Guidelines"
+    url: "docs/team-guidelines.md#authentication"

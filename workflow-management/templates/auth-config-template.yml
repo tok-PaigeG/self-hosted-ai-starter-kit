@@ -1,0 +1,92 @@
+# Authentication Configuration
+# This file documents all credential requirements for the workflow
+
+workflow_name: "Template Workflow"
+workflow_id: "template-workflow-id"
+
+# Required credentials that must be configured in n8n
+required_credentials:
+  # Example credential configuration - remove if not needed
+  # - name: "ollama_api"
+  #   type: "ollamaApi"
+  #   description: "Local Ollama service for AI processing"
+  #   required_fields:
+  #     - base_url: "http://ollama:11434"
+  #   setup_instructions: |
+  #     1. Go to n8n Credentials page: http://localhost:5678/home/credentials
+  #     2. Click "Add Credential" and select "Ollama API"
+  #     3. Set Base URL to: http://ollama:11434
+  #     4. Test the connection
+  #     5. Save with name "Local Ollama Service"
+
+  # - name: "slack_oauth"
+  #   type: "slackOAuth2Api"
+  #   description: "Slack workspace access for bot functionality"
+  #   required_scopes:
+  #     - "chat:write"
+  #     - "channels:read"
+  #   setup_instructions: |
+  #     1. Create Slack app at https://api.slack.com/apps
+  #     2. Add OAuth scopes: chat:write, channels:read
+  #     3. Install app to workspace
+  #     4. Copy OAuth token to n8n credential
+  #     5. Test with a simple message
+
+  # - name: "postgres_connection"
+  #   type: "postgres"
+  #   description: "PostgreSQL database connection"
+  #   required_fields:
+  #     - host: "postgres"
+  #     - port: 5432
+  #     - database: "n8n"
+  #     - username: "${POSTGRES_USER}"
+  #     - password: "${POSTGRES_PASSWORD}"
+
+# Optional credentials that enhance functionality
+optional_credentials: []
+
+# Environment variables that affect authentication
+environment_variables:
+  # List any .env variables that impact authentication
+  # - POSTGRES_USER: "Database username from .env file"
+  # - POSTGRES_PASSWORD: "Database password from .env file"
+  # - OLLAMA_HOST: "Ollama service endpoint"
+
+# Security considerations
+security_notes:
+  - "All credentials are stored securely in n8n's encrypted credential store"
+  - "Never commit actual credential values to the repository"
+  - "Use environment variables for configuration that might change between deployments"
+  - "Test credentials regularly to ensure they remain valid"
+  - "Follow principle of least privilege - only request minimum required permissions"
+
+# Testing authentication
+testing:
+  # - credential_name: "ollama_api"
+  #   test_method: "Simple chat completion request"
+  #   expected_result: "Successful response from Ollama"
+  
+  # - credential_name: "slack_oauth"
+  #   test_method: "Send test message to a channel"
+  #   expected_result: "Message appears in Slack channel"
+
+# Troubleshooting
+troubleshooting:
+  common_issues:
+    - issue: "Connection timeout to Ollama"
+      solution: "Ensure Ollama container is running and accessible at ollama:11434"
+      
+    - issue: "Invalid Slack token"
+      solution: "Check token permissions and ensure app is installed to workspace"
+      
+    - issue: "Database connection failed"
+      solution: "Verify POSTGRES_* environment variables match .env file"
+
+# Documentation links
+documentation:
+  - name: "n8n Credentials Documentation"
+    url: "https://docs.n8n.io/credentials/"
+  - name: "Ollama API Documentation"
+    url: "https://github.com/ollama/ollama/blob/main/docs/api.md"
+  - name: "Team Authentication Guidelines"
+    url: "docs/team-guidelines.md#authentication"
